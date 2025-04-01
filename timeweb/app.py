@@ -1,21 +1,20 @@
-from flask import Flask, render_template, request, session, redirect, url_for, jsonify, abort
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template
 import os 
 
 app = Flask(__name__)
-app.secret_key = 'REPLACE_ME_WITH_RANDOM_CHARACTERS'
+app.secret_key='REPLACE_ME_WITH_RANDOM_CHARACTERS'
 
-db_name = 'test.db'
-sqlite_uri = f'sqlite:///{os.path.abspath(os.path.curdir)}/{db_name}'
-app.config['SQLALCHEMY_DATABASE_URI'] = sqlite_uri
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
-from models import User
+from datetime import datetime
 
-with app.app_context():
-    db.create_all()
+
+
 
 @app.route('/')
-def index():
-    return 'Results of GET /'
+def main():
+    now = datetime.now()
+    formatted_date = now.strftime("%b %d, %Y %H:%M") 
+    return "<h1>Current Date and Time:</h1><p>{}</p>".format(formatted_date)
+
+if __name__ == "__main__":
+    app.run(host="10.92.21.104", port="42069", debug=False)
